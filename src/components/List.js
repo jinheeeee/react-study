@@ -44,14 +44,14 @@ export const List = React.memo(
     const handleEditChange = (e) => {
       setEditedTitle(e.target.value);
     };
-
+    //save 버튼 클릭 이벤트
     const handleSubmit = (e) => {
       e.preventDefault();
 
       let newTodoData = todoData.map((data) => {
         // id값은 자동으로 주나보다..
         console.log("id", id, "data id", data.id);
-
+        // * todoData안에 있는 id중에 내가 클릭한 id값과 같을 경우 title 바꿔주기.
         if (data.id === id) {
           data.title = editedTitle;
         }
