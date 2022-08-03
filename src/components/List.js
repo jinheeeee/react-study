@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 
 export const List = React.memo(
-  ({ id, title, completed, todoData, setTodoData, provided, snapshot }) => {
+  ({
+    id,
+    title,
+    completed,
+    todoData,
+    handleClick,
+    setTodoData,
+    provided,
+    snapshot,
+  }) => {
     // 수정한 값을 담을 state
     const [isEditing, setisEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
@@ -23,13 +32,6 @@ export const List = React.memo(
     //   };
     // };
 
-    const handleClick = (id) => {
-      let newTodoData = todoData.filter((data) => data.id !== id);
-      // * setState : todoData를 다시 그려줌
-      // this.setState({ todoData: newTodoData });
-      setTodoData(newTodoData);
-    };
-
     const handleCompleteChange = (id) => {
       let newTodoData = todoData.map((data) => {
         if (data.id === id) {
@@ -39,6 +41,7 @@ export const List = React.memo(
       });
       // this.setState({ todoData: setTodoData });
       setTodoData(newTodoData);
+      localStorage.setItem("todoData", JSON.stringify(newTodoData));
     };
 
     const handleEditChange = (e) => {
@@ -49,8 +52,6 @@ export const List = React.memo(
       e.preventDefault();
 
       let newTodoData = todoData.map((data) => {
-        // id값은 자동으로 주나보다..
-        console.log("id", id, "data id", data.id);
         // * todoData안에 있는 id중에 내가 클릭한 id값과 같을 경우 title 바꿔주기.
         if (data.id === id) {
           data.title = editedTitle;
@@ -59,6 +60,8 @@ export const List = React.memo(
       });
 
       setTodoData(newTodoData);
+      localStorage.setItem("todoData", JSON.stringify(newTodoData));
+
       setisEditing(false);
     };
 
